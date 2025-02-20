@@ -1,1 +1,1 @@
-com.example.exampleaddon.kubejs.ExampleKubeJSPlugin
+com.anningui.modifyjs.kubejs.ModifyJSKubeJSPlugin
