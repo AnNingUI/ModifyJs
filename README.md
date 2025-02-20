@@ -1,6 +1,16 @@
 > Use Template By [KubeJSForgeAddonTemplate](https://github.com/CrychicTeam/KubeJSForgeAddonTemplate)
+
+> This English Readme is translated by `GPT-4o`, please understand if there is any incomprehension.
+
 ---
-> Example
+
+<p align="center">
+<a href="./README_ZH.md"> 简体中文 </a> | <span> English </span>
+</p>
+
+This is a simple mod that initially started as an addition for some features not implemented by the KJS community. It currently implements some basic item rendering, which can be considered a simple extension to[RenderJS](https://github.com/ch1335/RenderJS)
+
+## Example:
 ```javascript
 const $Axis = Java.loadClass("com.mojang.math.Axis");
 StartupEvents.registry("block", event => {
@@ -26,7 +36,7 @@ StartupEvents.registry("block", event => {
 })
 ```
 ---
-如果你需要给普通的物品添加ItemRender，需要使用一个builder Type `mjs_item`
+If you need to add ItemRender to regular items, you should use a builder Type `mjs_item`
 ```javascript
 StartupEvents.registry("item", e => {
     e.create("test_item", "mjs_item")
