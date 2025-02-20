@@ -1,12 +1,6 @@
-> Use Template By [KubeJSForgeAddonTemplate](https://github.com/CrychicTeam/KubeJSForgeAddonTemplate)
-
 > This English Readme is translated by `GPT-4o`, please understand if there is any incomprehension.
 
 ---
-
-<p align="center">
-<a href="./README_ZH.md"> 简体中文 </a> | <span> English </span>
-</p>
 
 This is a simple mod that initially started as an addition for some features not implemented by the KJS community. It currently implements some basic item rendering, which can be considered a simple extension to[RenderJS](https://github.com/ch1335/RenderJS)
 
