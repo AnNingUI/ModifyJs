@@ -1,6 +1,9 @@
 package com.anningui.modifyjs.kubejs;
 
+import com.anningui.modifyjs.builder.MJSItemBuilder;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
+
+import static dev.latvian.mods.kubejs.registry.RegistryInfo.ITEM;
 
 public class ModifyJSKubeJSPlugin extends KubeJSPlugin {
     /* Basic example of a KubeJS Plugin.
@@ -10,6 +13,7 @@ public class ModifyJSKubeJSPlugin extends KubeJSPlugin {
     @Override
     public void init() {
         super.init();
+        ITEM.addType("mjs_item", MJSItemBuilder.class, MJSItemBuilder::new);
     }
 }
 
