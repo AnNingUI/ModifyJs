@@ -6,6 +6,7 @@ import dev.architectury.platform.Platform;
 import mekanism.api.MekanismIMC;
 import mekanism.common.integration.MekanismHooks;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +29,6 @@ import static java.util.Objects.isNull;
 @Mod(ModifyJS.ID)
 public class ModifyJS {
 
-
     // You really don't need any of the mumbo-jumbo found here in other mods. Just the ID and Logger.
     public static final String ID = "modifyjs";
 
@@ -46,9 +46,10 @@ public class ModifyJS {
         public static void onModelBaked(ModelEvent.ModifyBakingResult event){
             // wrench item model
             Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
-            var bkMap = mjs$customRendererMap;
-            for (var entry : bkMap.entrySet()) {
+
+            for (var entry : mjs$customRendererMap.entrySet()) {
                 var id = entry.getKey();
+                System.out.println("ModifyJS mjs$customRendererMap" + mjs$customRendererMap);
                 var isCustomRenderer = entry.getValue();
                 if (!isCustomRenderer) return;
                 ModelResourceLocation location = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(id)).asItem()), "inventory");
