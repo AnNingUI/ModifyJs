@@ -18,45 +18,4 @@ This is a simple mod that initially started as an addition for some features not
 This mod overrides the <code style="color: red; font-size: 16px">createObject</code> method of <code style="color: red; font-size: 16px">BlockItemBuilder</code>, which may cause issues during block registration.</span>
 
 ## Example:
-```javascript
-const $Axis = Java.loadClass("com.mojang.math.Axis");
-StartupEvents.registry("block", event => {
-    event.create("test_block")
-        .item((p) => {
-            p.isCustomRenderer(true)
-            p.renderByItem((itemStack, itemDisplayCtx, poseStack, buffer, packedLight, packedOverlay) => {
-                poseStack.pushPose()
-                let time = Date.now();
-                let angle = (time / 10) % 360;
-                poseStack.mulPose($Axis.YP.rotationDegrees(angle));
-                Client.itemRenderer.getBlockEntityRenderer().renderByItem(
-                    "blue_bed",
-                    itemDisplayCtx,
-                    poseStack,
-                    buffer,
-                    packedLight,
-                    packedOverlay,
-                )
-                poseStack.popPose()
-            })
-        })
-})
-```
----
-If you need to add ItemRender to regular items, you should use a builder Type `mjs_item`
-```javascript
-StartupEvents.registry("item", e => {
-    e.create("test_item", "mjs_item")
-        .isCustomRenderer(true)
-        .renderByItem((itemStack, itemDisplayCtx, poseStack, buffer, packedLight, packedOverlay) => {
-            Client.itemRenderer.getBlockEntityRenderer().renderByItem(
-                "blue_bed",
-                itemDisplayCtx,
-                poseStack,
-                buffer,
-                packedLight,
-                packedOverlay,
-            )
-        })
-})
-```
+Look [This](./example/)
