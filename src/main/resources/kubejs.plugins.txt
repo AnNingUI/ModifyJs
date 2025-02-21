@@ -1,1 +1,2 @@
 com.anningui.modifyjs.kubejs.ModifyJSKubeJSPlugin
+com.anningui.modifyjs.mod_adder.mek.MJSMekKubeJSPlugin

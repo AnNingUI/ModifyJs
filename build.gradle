@@ -113,6 +113,14 @@ repositories {
         name = 'tterrag'
         url = 'https://maven.tterrag.com/'
     }
+
+    maven {
+        url "https://modmaven.dev/"
+        content {
+            includeGroup "mekanism"
+        }
+    }
+
     maven {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
@@ -134,6 +142,12 @@ repositories {
     flatDir { dirs "libraries/embedded" }
 }
 
+//task printGradleVersion {
+//    doLast {
+//        println "Javava version: ${System.getProperty('java.version')}"
+//    }
+//}
+
 dependencies {
     minecraft "com.mojang:minecraft:${config.mc_version}"
     mappings loom.layered() {
@@ -154,6 +168,13 @@ dependencies {
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.2"))
     implementation(include("io.github.llamalad7:mixinextras-forge:0.3.2"))
+
+    // Mekanism dependencies
+    compileOnly "mekanism:Mekanism:${config.mc_version}-${config.mekanism_version}"
+    compileOnly "mekanism:Mekanism:${config.mc_version}-${config.mekanism_version}:additions"
+    compileOnly "mekanism:Mekanism:${config.mc_version}-${config.mekanism_version}:generators"
+    compileOnly "mekanism:Mekanism:${config.mc_version}-${config.mekanism_version}:tools"
+
 
     if (hasConfig("jei_version") && !config.jei_version.isEmpty()) {
         modCompileOnly("mezz.jei:jei-${config.mc_version}-common-api:${config.jei_version}")
