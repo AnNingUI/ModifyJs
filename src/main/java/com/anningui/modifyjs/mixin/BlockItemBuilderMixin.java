@@ -1,17 +1,13 @@
 package com.anningui.modifyjs.mixin;
 
 import com.anningui.modifyjs.callback.CustomInterface;
-import com.anningui.modifyjs.render.KJSClientItemExtensions;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.anningui.modifyjs.render.item.KJSClientItemExtensions;
 import dev.latvian.mods.kubejs.block.BlockBuilder;
 import dev.latvian.mods.kubejs.block.BlockItemBuilder;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,10 +18,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
-import static com.anningui.modifyjs.callback.BlockItemBuilderMap.mjs$customRendererMap;
+
+import static com.anningui.modifyjs.ModifyJS.mjs$customRendererMap;
 
 @Mixin(BlockItemBuilder.class)
 public abstract class BlockItemBuilderMixin extends ItemBuilder {

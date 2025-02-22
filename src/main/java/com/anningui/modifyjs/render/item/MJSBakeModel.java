@@ -1,4 +1,4 @@
-package com.anningui.modifyjs.render;
+package com.anningui.modifyjs.render.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.block.model.BakedQuad;

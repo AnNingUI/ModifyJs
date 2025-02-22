@@ -1,8 +1,8 @@
-package com.anningui.modifyjs.adder.mod_adder.mek;
+package com.anningui.modifyjs.mod_adder.mek;
 
-import com.anningui.modifyjs.adder.mod_adder.mek.custom.item.KubeJSUnitItemBuilder;
-import com.anningui.modifyjs.adder.mod_adder.mek.util.KubeJSModuleUtils;
-import com.anningui.modifyjs.adder.mod_adder.mek.util.UnitItemSlots;
+import com.anningui.modifyjs.mod_adder.mek.custom.item.KubeJSUnitItemBuilder;
+import com.anningui.modifyjs.mod_adder.mek.util.KubeJSModuleUtils;
+import com.anningui.modifyjs.mod_adder.mek.util.UnitItemSlots;
 import dev.architectury.platform.Platform;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;

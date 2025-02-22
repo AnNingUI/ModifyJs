@@ -1,4 +1,4 @@
-package com.anningui.modifyjs.adder.mod_adder.mek.custom.module;
+package com.anningui.modifyjs.mod_adder.mek.custom.module;
 
 
 import com.anningui.modifyjs.callback.CustomInterface;

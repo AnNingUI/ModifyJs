@@ -1,4 +1,4 @@
-package com.anningui.modifyjs.adder.mc_adder.entity;
+package com.anningui.modifyjs.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Display;

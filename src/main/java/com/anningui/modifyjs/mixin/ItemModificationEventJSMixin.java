@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.anningui.modifyjs.callback.BlockItemBuilderMap.mjs$customRendererMap;
+import static com.anningui.modifyjs.ModifyJS.mjs$customRendererMap;
 
 @Mixin(ItemModificationEventJS.class)
 public abstract class ItemModificationEventJSMixin extends EventJS {
@@ -24,7 +24,6 @@ public abstract class ItemModificationEventJSMixin extends EventJS {
         modify(in, (item) -> {
             var itemBuilder = new BasicItemJS.Builder(item.kjs$getIdLocation());
             var b = c.apply(itemBuilder);
-            System.out.println("Modified mjs$customRendererMap" + mjs$customRendererMap);
             item.kjs$setItemBuilder(b);
         });
     }

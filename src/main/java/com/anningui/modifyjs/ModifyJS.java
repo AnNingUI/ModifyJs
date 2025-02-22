@@ -1,12 +1,11 @@
 package com.anningui.modifyjs;
 
-import com.anningui.modifyjs.mixin.BlockItemBuilderMixin;
-import com.anningui.modifyjs.render.MJSBakeModel;
+import com.anningui.modifyjs.render.item.MJSBakeModel;
 import dev.architectury.platform.Platform;
+import dev.latvian.mods.kubejs.util.ConsoleJS;
 import mekanism.api.MekanismIMC;
 import mekanism.common.integration.MekanismHooks;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -18,10 +17,10 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.anningui.modifyjs.callback.BlockItemBuilderMap.mjs$customRendererMap;
 import static com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder.getAllModuleDataBuilder;
 import static com.anningui.modifyjs.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
 import static java.util.Objects.isNull;
@@ -31,6 +30,8 @@ public class ModifyJS {
 
     // You really don't need any of the mumbo-jumbo found here in other mods. Just the ID and Logger.
     public static final String ID = "modifyjs";
+
+    public static Map<ResourceLocation, Boolean> mjs$customRendererMap = new HashMap<>();
 
     public static Object hooks;
 
@@ -46,10 +47,9 @@ public class ModifyJS {
         public static void onModelBaked(ModelEvent.ModifyBakingResult event){
             // wrench item model
             Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
-
-            for (var entry : mjs$customRendererMap.entrySet()) {
+            var map2set = mjs$customRendererMap.entrySet();
+            map2set.forEach(entry -> {
                 var id = entry.getKey();
-                System.out.println("ModifyJS mjs$customRendererMap" + mjs$customRendererMap);
                 var isCustomRenderer = entry.getValue();
                 if (!isCustomRenderer) return;
                 ModelResourceLocation location = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(id)).asItem()), "inventory");
@@ -60,7 +60,7 @@ public class ModifyJS {
                     MJSBakeModel obsidianWrenchBakedModel = new MJSBakeModel(existingModel);
                     event.getModels().put(location, obsidianWrenchBakedModel);
                 }
-            }
+            });
         }
 
         @SubscribeEvent

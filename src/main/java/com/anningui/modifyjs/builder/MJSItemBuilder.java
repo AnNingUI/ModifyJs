@@ -1,18 +1,16 @@
 package com.anningui.modifyjs.builder;
 
 import com.anningui.modifyjs.callback.CustomInterface;
-import com.anningui.modifyjs.render.KJSClientItemExtensions;
-import dev.latvian.mods.kubejs.block.BlockItemBuilder;
+import com.anningui.modifyjs.render.item.KJSClientItemExtensions;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-import static com.anningui.modifyjs.callback.BlockItemBuilderMap.mjs$customRendererMap;
+import static com.anningui.modifyjs.ModifyJS.mjs$customRendererMap;
 import static java.util.Objects.isNull;
 
 public class MJSItemBuilder extends ItemBuilder {
