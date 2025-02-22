@@ -1,10 +1,10 @@
-package com.anningui.modifyjs.mod_adder.mek.custom.module;
+package com.anningui.modifyjs.adder.mod_adder.mek.custom.module;
 
 
 import com.anningui.modifyjs.callback.CustomInterface;
-import com.anningui.modifyjs.mod_adder.mek.MJSMekKubeJSPlugin;
-import com.anningui.modifyjs.mod_adder.mek.custom.item.KubeJSUnitItemBuilder;
-import com.anningui.modifyjs.mod_adder.mek.util.UnitItemSlots;
+import com.anningui.modifyjs.adder.mod_adder.mek.MJSMekKubeJSPlugin;
+import com.anningui.modifyjs.adder.mod_adder.mek.custom.item.KubeJSUnitItemBuilder;
+import com.anningui.modifyjs.adder.mod_adder.mek.util.UnitItemSlots;
 import dev.latvian.mods.kubejs.registry.BuilderBase;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
 import mekanism.api.functions.TriConsumer;

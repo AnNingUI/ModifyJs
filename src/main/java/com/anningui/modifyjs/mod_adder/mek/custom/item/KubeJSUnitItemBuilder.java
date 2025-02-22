@@ -1,11 +1,11 @@
-package com.anningui.modifyjs.mod_adder.mek.custom.item;
+package com.anningui.modifyjs.adder.mod_adder.mek.custom.item;
 
 
 import com.anningui.modifyjs.callback.CustomInterface;
-import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleCallback;
-import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleData;
-import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder;
-import com.anningui.modifyjs.mod_adder.mek.util.UnitItemSlots;
+import com.anningui.modifyjs.adder.mod_adder.mek.custom.module.KubeJSModuleCallback;
+import com.anningui.modifyjs.adder.mod_adder.mek.custom.module.KubeJSModuleData;
+import com.anningui.modifyjs.adder.mod_adder.mek.custom.module.KubeJSModuleDataBuilder;
+import com.anningui.modifyjs.adder.mod_adder.mek.util.UnitItemSlots;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
 import dev.latvian.mods.kubejs.typings.Info;
 import mekanism.api.functions.TriConsumer;
@@ -36,8 +36,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.anningui.modifyjs.mod_adder.mek.MJSMekKubeJSPlugin.MODULE_DATA;
-import static com.anningui.modifyjs.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
+import static com.anningui.modifyjs.adder.mod_adder.mek.MJSMekKubeJSPlugin.MODULE_DATA;
+import static com.anningui.modifyjs.adder.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
 
 public class KubeJSUnitItemBuilder extends ItemBuilder {
     public UnitItemSlots.Slots slot;

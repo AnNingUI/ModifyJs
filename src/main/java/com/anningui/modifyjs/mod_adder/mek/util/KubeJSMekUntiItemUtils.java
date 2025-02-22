@@ -1,4 +1,4 @@
-package com.anningui.modifyjs.mod_adder.mek.util;
+package com.anningui.modifyjs.adder.mod_adder.mek.util;
 
 import mekanism.api.MekanismAPI;
 import mekanism.api.gear.ModuleData;

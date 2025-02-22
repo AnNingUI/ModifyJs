@@ -1,4 +1,4 @@
-package com.anningui.modifyjs.mod_adder.mek.custom.item;
+package com.anningui.modifyjs.adder.mod_adder.mek.custom.item;
 
 import mekanism.api.gear.IModuleHelper;
 import mekanism.api.gear.ModuleData;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.anningui.modifyjs.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
+import static com.anningui.modifyjs.adder.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
 
 public class KubeJSUnitItem extends ItemModule implements IModuleItem {
     public KubeJSUnitItemBuilder itemBuilder;

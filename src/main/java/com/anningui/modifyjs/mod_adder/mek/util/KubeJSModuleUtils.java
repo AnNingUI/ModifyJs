@@ -1,7 +1,7 @@
-package com.anningui.modifyjs.mod_adder.mek.util;
+package com.anningui.modifyjs.adder.mod_adder.mek.util;
 
 
-import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleData;
+import com.anningui.modifyjs.adder.mod_adder.mek.custom.module.KubeJSModuleData;
 import mekanism.api.gear.ICustomModule;
 import mekanism.api.gear.IModule;
 import mekanism.api.math.FloatingLong;
