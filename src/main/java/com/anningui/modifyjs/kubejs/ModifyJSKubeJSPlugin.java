@@ -26,6 +26,9 @@ public class ModifyJSKubeJSPlugin extends KubeJSPlugin {
     @Override
     public void init() {
         super.init();
+        // 使用旧版命名mjs_item来符合旧版
+        ITEM.addType("mjs_item"         , RenderItemBuilder.BasicItemBuilder.class, RenderItemBuilder.BasicItemBuilder::new);
+
         ITEM.addType("render_basic"     , RenderItemBuilder.BasicItemBuilder.class, RenderItemBuilder.BasicItemBuilder::new);
         ITEM.addType("render_sword"     , RenderSwordItem.Builder.class, RenderSwordItem.Builder::new);
         ITEM.addType("render_pickaxe"   , RenderPickaxeItem.Builder.class, RenderPickaxeItem.Builder::new);
