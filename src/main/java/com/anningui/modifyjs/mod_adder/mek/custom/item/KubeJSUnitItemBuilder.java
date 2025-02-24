@@ -1,13 +1,17 @@
 package com.anningui.modifyjs.mod_adder.mek.custom.item;
 
 
+import com.anningui.modifyjs.builder.item.RenderItemBuilder;
 import com.anningui.modifyjs.callback.CustomInterface;
 import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleCallback;
 import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleData;
 import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder;
 import com.anningui.modifyjs.mod_adder.mek.util.UnitItemSlots;
+import com.anningui.modifyjs.render.item.KJSClientItemExtensions;
+import cpw.mods.util.Lazy;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
 import dev.latvian.mods.kubejs.typings.Info;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import mekanism.api.functions.TriConsumer;
 import mekanism.api.gear.ICustomModule;
 import mekanism.api.gear.IHUDElement;
@@ -24,32 +28,41 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ToolAction;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static com.anningui.modifyjs.mod_adder.mek.MJSMekKubeJSPlugin.MODULE_DATA;
 import static com.anningui.modifyjs.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
+import static java.util.Objects.isNull;
 
-public class KubeJSUnitItemBuilder extends ItemBuilder {
-    public UnitItemSlots.Slots slot;
+public class KubeJSUnitItemBuilder extends RenderItemBuilder {
+    public transient UnitItemSlots.Slots slot;
 
-    public KubeJSModuleCallback moduleCallback;
+    public transient KubeJSModuleCallback moduleCallback;
 
-    public int exclusive;
-    public boolean rendersHUD;
+    public transient int exclusive;
+    public transient boolean rendersHUD;
 
-    public int maxModuleSize = 1;
-    public boolean handlesModeChange;
-    public boolean modeChangeDisabledByDefault;
+    public transient int maxModuleSize = 1;
+    public transient boolean handlesModeChange;
+    public transient boolean modeChangeDisabledByDefault;
+    public static Map<ResourceLocation, Spec> specs = new HashMap<>();
 
     private IModuleDataProvider<?> moduleData;
 
@@ -197,9 +210,59 @@ public class KubeJSUnitItemBuilder extends ItemBuilder {
         return this;
     }
 
+    public KubeJSUnitItemBuilder addMekaSuitModuleModelSpec(EquipmentSlot slotType, Predicate<LivingEntity> isActive) {
+        if (isMekaSuit()) {
+            specs.put(id, new Spec(
+                    id.toString(),
+                    Lazy.of(() -> {
+                        if (getModuleData() != null) {
+                            return getModuleData();
+                        } else {
+                            return getModuleById(id);
+                        }
+                    }),
+                    slotType,
+                    isActive
+            ));
+        }
+        return this;
+    }
+
+    @HideFromJS
+    public static class Spec {
+        public final String name;
+        public final Lazy<IModuleDataProvider<?>> moduleDataProvider;
+        public final EquipmentSlot slotType;
+        public final Predicate<LivingEntity> isActive;
+
+        public Spec(String name, Lazy<IModuleDataProvider<?>> moduleDataProvider, EquipmentSlot slotType, Predicate<LivingEntity> isActive) {
+            this.name = name;
+            this.moduleDataProvider = moduleDataProvider;
+            this.slotType = slotType;
+            this.isActive = isActive;
+        }
+    }
+
+    private boolean isMekaSuit() {
+        return slot == UnitItemSlots.Slots.MEK_SUIT_BODY   ||
+               slot == UnitItemSlots.Slots.MEK_SUIT_BOOTS  ||
+               slot == UnitItemSlots.Slots.MEK_SUIT_HELMET ||
+               slot == UnitItemSlots.Slots.MEK_SUIT_PANTS;
+    }
+
     @Override
     public KubeJSUnitItem createObject() {
-        return new KubeJSUnitItem(getModuleData(), this);
+        if (mjs$isCustomRenderer && !isNull(mjs$renderByItemCallback)) {
+            return new KubeJSUnitItem(getModuleData(), this) {
+                @Override
+                public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
+                    super.initializeClient(consumer);
+                    consumer.accept(new KJSClientItemExtensions(mjs$renderByItemCallback));
+                }
+            };
+        } else {
+            return new KubeJSUnitItem(getModuleData(), this);
+        }
     }
 
     @Override
@@ -210,6 +273,7 @@ public class KubeJSUnitItemBuilder extends ItemBuilder {
         }
     }
 
+    @HideFromJS
     public IModuleDataProvider<?> getModuleData() {
         return moduleData;
     }

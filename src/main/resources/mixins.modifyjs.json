@@ -9,6 +9,8 @@
     "ItemModificationEventJSMixin"
   ],
   "client": [
+    "HumanoidArmorLayerMixin",
+    "LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
