@@ -14,7 +14,10 @@ import java.util.function.Function;
 
 @Mixin(ItemModificationEventJS.class)
 public abstract class ItemModificationEventJSMixin extends EventJS {
-
+    /**
+     * @author Mango
+     * @link <a href="https://kubejs-notes.pages.dev/zh-tw/example-scripts/Modify-Items-Builder.html">...</a>
+     */
     public void modifyItemBuilder(Ingredient in, Function<ItemBuilder, ItemBuilder> c) {
         modify(in, (item) -> {
             var itemBuilder = new BasicItemJS.Builder(item.kjs$getIdLocation());

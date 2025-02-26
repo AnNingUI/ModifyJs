@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.latvian.mods.kubejs.item.MutableArmorTier;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -47,8 +48,12 @@ public class RenderArmorItem extends ArmorItem {
     }
 
     public static class Builder extends RenderItemBuilder {
+        @HideFromJS
+        public static Map<ResourceLocation, Builder> instances = new HashMap<>();
         public final ArmorItem.Type armorType;
         public MutableArmorTier armorTier;
+
+        public boolean canShowModel = true;
 
         public static Map<Builder, Consumer<ArmorLayerContext>> allArmorLayers = new HashMap<>();
 
@@ -57,6 +62,7 @@ public class RenderArmorItem extends ArmorItem {
             armorType = t;
             armorTier = new MutableArmorTier(id.toString(), ArmorMaterials.IRON);
             unstackable();
+            instances.put(i, this);
         }
 
         public Builder tier(ArmorMaterial t) {
@@ -71,6 +77,11 @@ public class RenderArmorItem extends ArmorItem {
 
         public Builder addLayerRender(Consumer<ArmorLayerContext> callback) {
             allArmorLayers.put(this, callback);
+            return this;
+        }
+
+        public Builder noJavaModel() {
+            this.canShowModel = false;
             return this;
         }
 

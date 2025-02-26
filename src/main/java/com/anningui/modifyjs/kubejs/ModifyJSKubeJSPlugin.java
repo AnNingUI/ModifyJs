@@ -4,17 +4,12 @@ import com.anningui.modifyjs.builder.item.RenderItemBuilder;
 import com.anningui.modifyjs.builder.item.RenderRecordItem;
 import com.anningui.modifyjs.builder.item.armor.RenderArmorItem;
 import com.anningui.modifyjs.builder.item.tool.*;
+import com.anningui.modifyjs.util.js_long.SwitchMap;
+import com.anningui.modifyjs.util.render.MJSRenderUtils;
 import com.anningui.modifyjs.util.js_long.TryCatchPipe;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
-import dev.latvian.mods.kubejs.item.custom.ArmorItemBuilder;
-import dev.latvian.mods.kubejs.item.custom.HoeItemBuilder;
-import dev.latvian.mods.kubejs.registry.RegistryInfo;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import org.openjdk.nashorn.api.scripting.NashornScriptEngine;
-import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
-
-import javax.script.ScriptEngineManager;
 
 import static dev.latvian.mods.kubejs.registry.RegistryInfo.ITEM;
 
@@ -46,6 +41,8 @@ public class ModifyJSKubeJSPlugin extends KubeJSPlugin {
     @Override
     public void registerBindings(BindingsEvent event) {
         event.add("TryCatchPipe", TryCatchPipe.class);
+        event.add("SwitchMap", SwitchMap.class);
+        event.add("MJSRenderUtils", MJSRenderUtils.class);
         event.add("ModelResourceLocation", ModelResourceLocation.class);
     }
 }

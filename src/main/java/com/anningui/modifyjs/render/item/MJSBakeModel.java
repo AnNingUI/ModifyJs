@@ -13,8 +13,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * @author Flander923
+ * @link <a href="https://fuwari-ald.pages.dev/posts/minecraft1_20_4/out_26-%E7%89%A9%E5%93%81%E7%89%B9%E6%AE%8A%E6%B8%B2%E6%9F%93/">...</a>
+ */
 public class MJSBakeModel implements BakedModel {
-    private BakedModel existingModel;
+    private final BakedModel existingModel;
 
     public MJSBakeModel(BakedModel existingModel) {
         this.existingModel = existingModel;

@@ -1,5 +1,7 @@
 package com.anningui.modifyjs.render.entity.layers;
 
+import com.anningui.modifyjs.ModifyJS;
+import com.anningui.modifyjs.builder.item.armor.RenderArmorItem;
 import com.anningui.modifyjs.callback.ArmorLayerContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
@@ -8,14 +10,20 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.anningui.modifyjs.builder.item.armor.RenderArmorItem.Builder.allArmorLayers;
+import static com.anningui.modifyjs.builder.item.armor.RenderArmorItem.Builder.instances;
 
 @OnlyIn(Dist.CLIENT)
 public class MJSHumanoidArmorLayer <T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends HumanoidArmorLayer<T, M, A> {
@@ -53,5 +61,15 @@ public class MJSHumanoidArmorLayer <T extends LivingEntity, M extends HumanoidMo
         );
         int index = ids.indexOf(armorId);
         return index != -1;
+    }
+
+    @Override
+    public @NotNull ResourceLocation getArmorResource(@NotNull Entity entity, ItemStack stack, @NotNull EquipmentSlot slot, @Nullable String type) {
+        var armorItem = stack.getItem();
+        if (armorItem instanceof RenderArmorItem && !instances.get(stack.kjs$getIdLocation()).canShowModel ) {
+            return new ResourceLocation(ModifyJS.ID, "textures/models/armor/blank_armor.png");
+        } else {
+            return super.getArmorResource(entity, stack, slot, type);
+        }
     }
 }
