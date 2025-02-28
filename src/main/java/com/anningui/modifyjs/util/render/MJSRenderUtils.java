@@ -1,19 +1,20 @@
 package com.anningui.modifyjs.util.render;
 
-import com.anningui.modifyjs.ModifyJS;
+import com.anningui.modifyjs.util.RayTraceResultMJS;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.latvian.mods.kubejs.fluid.FluidStackJS;
 import dev.latvian.mods.kubejs.typings.Info;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -21,16 +22,12 @@ import net.minecraftforge.fluids.FluidStack;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-import java.util.logging.Logger;
-
 
 @OnlyIn(Dist.CLIENT)
 public class MJSRenderUtils {
     @Info("""
-    /**
-     * @author Flander923
-     * @link <a href="https://www.bilibili.com/video/BV1t1AUe7ErD?vd_source=a6e9e72f334103d28476ce3f30850f61">...</a>
-     */
+    @author Flander923\n
+    @link <a href="https://www.bilibili.com/video/BV1t1AUe7ErD?vd_source=a6e9e72f334103d28476ce3f30850f61">...</a>
     """)
     public static void renderModelLists(
             ItemRenderer itemRenderer,
@@ -65,10 +62,8 @@ public class MJSRenderUtils {
      *
      */
     @Info("""
-    /**
-     * @author Lat
-     * @link <a href="https://github.com/FTBTeam/FTB-Jar-Mod/blob/main/src/main/java/dev/ftb/mods/ftbjarmod/block/entity/render/JarBlockEntityRenderer.java">...</a>
-     */
+    @author Lat\n
+    @link <a href="https://github.com/FTBTeam/FTB-Jar-Mod/blob/main/src/main/java/dev/ftb/mods/ftbjarmod/block/entity/render/JarBlockEntityRenderer.java">...</a>
     """)
     public static void renderFluidModel(
             FluidStack fluidStack,
@@ -135,4 +130,112 @@ public class MJSRenderUtils {
         builder.vertex(m, s1, y0, s0).color(r, g, b, a).uv(u0, v1).overlayCoords(packedOverlay).uv2(light).normal(n, 0, 1, 0).endVertex();
     }
 
+    public static void renderLineIn3D(
+            Vec3 start,
+            Vec3 end,
+            int startColor,
+            int endColor,
+            PoseStack poseStack,
+            MultiBufferSource bufferSource
+    ) {
+        Minecraft mc = Minecraft.getInstance();
+        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
+        start = start.subtract(camPos);
+        end = end.subtract(camPos);
+        Matrix4f m = poseStack.last().pose();
+        Matrix3f n = poseStack.last().normal();
+        // Calculate the line direction
+        Vec3 direction = start.subtract(end).normalize();
+
+        // Create a normal based on the line's direction
+        float nx = (float) direction.x;
+        float ny = (float) direction.y;
+        float nz = (float) direction.z;
+        // 渲染线条
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
+        vertexConsumer.vertex(m, (float) start.x, (float) start.y, (float) start.z)
+                .color(startColor)
+                .normal(n, nx, ny, nz)
+                .endVertex();
+        vertexConsumer.vertex(m, (float) end.x, (float) end.y, (float) end.z)
+                .color(endColor)
+                .normal(n, nx, ny, nz)
+                .endVertex();
+    }
+
+    public static void renderEntityLineIn3D(Entity entity, float rayLength, PoseStack poseStack, MultiBufferSource bufferSource) {
+        Minecraft mc = Minecraft.getInstance();
+
+        // 获取实体的位置
+        double startX = entity.getX();
+        double startY = entity.getY() + entity.getEyeHeight();
+        double startZ = entity.getZ();
+
+        // 获取实体的朝向
+        float yaw = entity.getYRot();
+        float pitch = entity.getXRot();
+
+        // 转换为弧度
+        double pi = Math.PI;
+        double yawRad = yaw * (pi / 180.0);
+        double pitchRad = pitch * (pi / 180.0);
+
+        // 计算视线方向
+        double x = -Math.sin(yawRad) * Math.cos(pitchRad);
+        double y = -Math.sin(pitchRad);
+        double z = Math.cos(yawRad) * Math.cos(pitchRad);
+
+        // 计算射线终点
+        double endX = startX + x * rayLength;
+        double endY = startY + y * rayLength;
+        double endZ = startZ + z * rayLength;
+
+        // 渲染射线
+        Matrix4f matrix = poseStack.last().pose();
+        Matrix3f normal = poseStack.last().normal();
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
+
+        vertexConsumer.vertex(matrix, (float) startX, (float) startY, (float) startZ)
+                .color(0xFFFF0000)  // 例如红色
+                .normal(normal, 0, 0, 0)
+                .endVertex();
+
+        vertexConsumer.vertex(matrix, (float) endX, (float) endY, (float) endZ)
+                .color(0xFFFF0000)  // 例如红色
+                .normal(normal, 0, 0, 0)
+                .endVertex();
+    }
+
+    @Info("""
+    @param r 0~255\n
+    @param g 0~255\n
+    @param b 0~255\n
+    @param a 0~1
+    """)
+    public static int rgba255ToColor(int r, int g, int b, float a) {
+        int alpha = (int) (a * 255);
+        // 确保 alpha 的值在有效范围内
+        alpha = Math.max(0, Math.min(255, alpha));
+        return ((alpha & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+    }
+
+    public static RayTraceResultMJS getPlayerRayTrace(Player player, double distance) {
+        // 获取玩家的视角向量
+        Vec3 lookVec = player.getLookAngle();
+
+        // 获取玩家当前位置
+        Vec3 playerPos = new Vec3(player.getX(), player.getY(), player.getZ());
+
+        // 计算结束位置（玩家视角指定距离的位置）
+        Vec3 endPos = playerPos.add(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance);
+
+        // 创建并返回一个 RayTraceResultJS 记录对象
+        return new RayTraceResultMJS(
+                playerPos.x, playerPos.y, playerPos.z,
+                endPos.x, endPos.y, endPos.z,
+                new Vec3(playerPos.x, playerPos.y, playerPos.z),
+                new Vec3(endPos.x, endPos.y, endPos.z),
+                new Vec3(lookVec.x, lookVec.y, lookVec.z)
+        );
+    }
 }
