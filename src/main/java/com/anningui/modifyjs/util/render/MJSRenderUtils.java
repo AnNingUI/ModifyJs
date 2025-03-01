@@ -1,9 +1,12 @@
 package com.anningui.modifyjs.util.render;
 
+import com.anningui.modifyjs.ModifyJS;
 import com.anningui.modifyjs.util.RayTraceResultMJS;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.latvian.mods.kubejs.typings.Info;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -138,39 +141,38 @@ public class MJSRenderUtils {
             PoseStack poseStack,
             MultiBufferSource bufferSource
     ) {
-        Minecraft mc = Minecraft.getInstance();
-        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
-        start = start.subtract(camPos);
-        end = end.subtract(camPos);
         Matrix4f m = poseStack.last().pose();
         Matrix3f n = poseStack.last().normal();
-        // Calculate the line direction
-        Vec3 direction = start.subtract(end).normalize();
-
-        // Create a normal based on the line's direction
-        float nx = (float) direction.x;
-        float ny = (float) direction.y;
-        float nz = (float) direction.z;
         // 渲染线条
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
         vertexConsumer.vertex(m, (float) start.x, (float) start.y, (float) start.z)
                 .color(startColor)
-                .normal(n, nx, ny, nz)
+                .normal(n, 0, 1, 0)
                 .endVertex();
         vertexConsumer.vertex(m, (float) end.x, (float) end.y, (float) end.z)
                 .color(endColor)
-                .normal(n, nx, ny, nz)
+                .normal(n, 0, 1, 0)
                 .endVertex();
     }
 
-    public static void renderEntityLineIn3D(Entity entity, float rayLength, PoseStack poseStack, MultiBufferSource bufferSource) {
+    public static BakedModel getModel(ResourceLocation idPath) {
         Minecraft mc = Minecraft.getInstance();
+        return mc.getModelManager().getModel(idPath);
+    }
 
-        // 获取实体的位置
-        double startX = entity.getX();
-        double startY = entity.getY() + entity.getEyeHeight();
-        double startZ = entity.getZ();
+    public static BakedModel getModel(ResourceLocation idPath, String variant) {
+        Minecraft mc = Minecraft.getInstance();
+        return mc.getModelManager().getModel(new ModelResourceLocation(idPath, variant));
+    }
 
+    public static void renderEntityLineIn3D(
+            Entity entity,
+            float rayLength,
+            int startColor,
+            int endColor,
+            PoseStack poseStack,
+            MultiBufferSource bufferSource
+    ) {
         // 获取实体的朝向
         float yaw = entity.getYRot();
         float pitch = entity.getXRot();
@@ -186,24 +188,19 @@ public class MJSRenderUtils {
         double z = Math.cos(yawRad) * Math.cos(pitchRad);
 
         // 计算射线终点
-        double endX = startX + x * rayLength;
-        double endY = startY + y * rayLength;
-        double endZ = startZ + z * rayLength;
+        float endX = (float) x * rayLength;
+        float endY = (float) y * rayLength;
+        float endZ = (float) z * rayLength;
 
         // 渲染射线
-        Matrix4f matrix = poseStack.last().pose();
-        Matrix3f normal = poseStack.last().normal();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
-
-        vertexConsumer.vertex(matrix, (float) startX, (float) startY, (float) startZ)
-                .color(0xFFFF0000)  // 例如红色
-                .normal(normal, 0, 0, 0)
-                .endVertex();
-
-        vertexConsumer.vertex(matrix, (float) endX, (float) endY, (float) endZ)
-                .color(0xFFFF0000)  // 例如红色
-                .normal(normal, 0, 0, 0)
-                .endVertex();
+        renderLineIn3D(
+            new Vec3(0,0,0),
+            new Vec3(endX, endY, endZ),
+            startColor,
+            endColor,
+            poseStack,
+            bufferSource
+        );
     }
 
     @Info("""

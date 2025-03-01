@@ -1,6 +1,7 @@
 package com.anningui.modifyjs;
 
 import com.anningui.modifyjs.callback.MixinStron;
+import com.anningui.modifyjs.kubejs.event.ModelRegisterAdditional;
 import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder;
 import com.anningui.modifyjs.mod_adder.mek.util.UnitItemSlots;
 import com.anningui.modifyjs.render.entity.layers.MJSHumanoidArmorLayer;
@@ -40,6 +41,7 @@ import java.util.Set;
 
 import static com.anningui.modifyjs.ModifyJS.hooks;
 import static com.anningui.modifyjs.ModifyJS.mjs$customRendererMap;
+import static com.anningui.modifyjs.kubejs.event.MJSModelEvents.REGISTER_ADDER;
 import static com.anningui.modifyjs.mod_adder.mek.custom.item.KubeJSUnitItemBuilder.specs;
 import static com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder.getAllModuleDataBuilder;
 import static com.anningui.modifyjs.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
@@ -124,6 +126,11 @@ public class ModifyJSClient {
                 event.getModels().put(location, obsidianWrenchBakedModel);
             }
         });
+    }
+
+    @SubscribeEvent
+    public static void onModerAdder(ModelEvent.RegisterAdditional event) {
+        ModelRegisterAdditional.onEvent(event);
     }
 
     @SubscribeEvent

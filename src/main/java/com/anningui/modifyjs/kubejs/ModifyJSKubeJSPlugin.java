@@ -4,12 +4,15 @@ import com.anningui.modifyjs.builder.item.RenderItemBuilder;
 import com.anningui.modifyjs.builder.item.RenderRecordItem;
 import com.anningui.modifyjs.builder.item.armor.RenderArmorItem;
 import com.anningui.modifyjs.builder.item.tool.*;
+import com.anningui.modifyjs.kubejs.event.MJSModelEvents;
+import com.anningui.modifyjs.kubejs.event.ModelRegisterAdditional;
 import com.anningui.modifyjs.util.js_long.SwitchMap;
 import com.anningui.modifyjs.util.render.MJSRenderUtils;
 import com.anningui.modifyjs.util.js_long.TryCatchPipe;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraftforge.client.event.ModelEvent;
 
 import static dev.latvian.mods.kubejs.registry.RegistryInfo.ITEM;
 
@@ -36,6 +39,16 @@ public class ModifyJSKubeJSPlugin extends KubeJSPlugin {
         ITEM.addType("render_leggings"  , RenderArmorItem.Leggings.class, RenderArmorItem.Leggings::new);
         ITEM.addType("render_boots"     , RenderArmorItem.Boots.class, RenderArmorItem.Boots::new);
         ITEM.addType("render_music_disc", RenderRecordItem.Builder.class, RenderRecordItem.Builder::new);
+    }
+
+    @Override
+    public void initStartup() {
+        MJSModelEvents.REGISTER_ADDER.post(new ModelRegisterAdditional());
+    }
+
+    @Override
+    public void registerEvents() {
+        MJSModelEvents.GROUP.register();
     }
 
     @Override
