@@ -73,6 +73,8 @@ loom {
                 "mixins.${config.mod_id}.json"
         ]
     }
+
+    accessWidenerPath = file("src/main/resources/${config.mod_id}.accesswidener")
 }
 
 repositories {

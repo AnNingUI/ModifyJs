@@ -1,0 +1,9 @@
+accessWidener	v1	named
+accessible field net/minecraft/world/item/ArmorItem defaultModifiers Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/item/ArmorItem defaultModifiers Lcom/google/common/collect/Multimap;
+accessible field net/minecraft/world/item/DiggerItem defaultModifiers Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/item/DiggerItem defaultModifiers Lcom/google/common/collect/Multimap;
+accessible field net/minecraft/world/item/SwordItem defaultModifiers Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/item/SwordItem defaultModifiers Lcom/google/common/collect/Multimap;
+accessible field net/minecraft/world/item/TridentItem defaultModifiers Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/item/TridentItem defaultModifiers Lcom/google/common/collect/Multimap;

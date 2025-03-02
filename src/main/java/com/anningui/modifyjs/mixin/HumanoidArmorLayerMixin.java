@@ -21,13 +21,6 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
         super(renderer);
     }
 
-    @Final
-    @Shadow
-    private A innerModel;
-    @Final
-    @Shadow
-    private A outerModel;
-
     @Inject(method = "<init>", at = @At("RETURN"))
     private void init(RenderLayerParent<T, M> renderer, A innerModel, A outerModel, ModelManager modelManager, CallbackInfo ci) {
         MixinStron.innerModel = (HumanoidModel<LivingEntity>) innerModel;

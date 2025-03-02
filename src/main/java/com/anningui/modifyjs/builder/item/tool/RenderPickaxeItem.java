@@ -21,14 +21,11 @@ import java.util.function.Consumer;
 import static java.util.Objects.isNull;
 
 public class RenderPickaxeItem extends PickaxeItem {
-    private boolean modified = false;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-
     private final Multimap<ResourceLocation, AttributeModifier> attributes;
+    private boolean modified = false;
+    {defaultModifiers = ArrayListMultimap.create(defaultModifiers);}
     public RenderPickaxeItem(Tier tier, int attackDamageModifier, float attackSpeedModifier, Properties properties, Multimap<ResourceLocation, AttributeModifier> attributes) {
         super(tier, attackDamageModifier, attackSpeedModifier, properties);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        this.defaultModifiers = ArrayListMultimap.create(builder.build());
         this.attributes = attributes;
     }
 

@@ -26,25 +26,21 @@ import java.util.function.Consumer;
 import static java.util.Objects.isNull;
 
 public class RenderArmorItem extends ArmorItem {
-    private boolean modified = false;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-
     private final Multimap<ResourceLocation, AttributeModifier> attributes;
-
     public RenderArmorItem(ArmorMaterial material, Type type, Properties properties, Multimap<ResourceLocation, AttributeModifier> attributes) {
         super(material, type, properties);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        this.defaultModifiers = ArrayListMultimap.create(builder.build());
         this.attributes = attributes;
     }
+    private boolean modified = false;
+    {defaultModifiers = ArrayListMultimap.create(defaultModifiers);}
 
     @Override
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
+    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
         if (!modified) {
             modified = true;
             attributes.forEach((r, m) -> defaultModifiers.put(RegistryInfo.ATTRIBUTE.getValue(r), m));
         }
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
+        return super.getDefaultAttributeModifiers(equipmentSlot);
     }
 
     public static class Builder extends RenderItemBuilder {
@@ -89,6 +85,7 @@ public class RenderArmorItem extends ArmorItem {
         public Item createObject() {
             if (mjs$isCustomRenderer && !isNull(mjs$renderByItemCallback)) {
                 return new RenderArmorItem(armorTier, armorType, createItemProperties(), attributes) {
+
                     @Override
                     public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
                         super.initializeClient(consumer);
