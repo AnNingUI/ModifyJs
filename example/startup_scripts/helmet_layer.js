@@ -1,7 +1,7 @@
 // const $Axis = Java.loadClass("com.mojang.math.Axis");
 // const $ItemDisplayContext = Java.loadClass("net.minecraft.world.item.ItemDisplayContext");
 StartupEvents.registry("item", e => {
-    e.create("test_item", "render_helmet")
+    e.create("test_helmet", "render_helmet")
         .isCustomRenderer(true)
         .renderByItem((itemStack, itemDisplayCtx, poseStack, buffer, packedLight, packedOverlay) => {
             // ...
