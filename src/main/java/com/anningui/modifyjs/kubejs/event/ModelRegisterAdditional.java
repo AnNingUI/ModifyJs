@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ModelRegisterAdditional extends StartupEventJS {
+    @HideFromJS
     public static Set<ResourceLocation> modelsAdderSet = new HashSet<>();
     @HideFromJS
     public ModelRegisterAdditional() {

@@ -41,7 +41,6 @@ import java.util.Set;
 
 import static com.anningui.modifyjs.ModifyJS.hooks;
 import static com.anningui.modifyjs.ModifyJS.mjs$customRendererMap;
-import static com.anningui.modifyjs.kubejs.event.MJSModelEvents.REGISTER_ADDER;
 import static com.anningui.modifyjs.mod_adder.mek.custom.item.KubeJSUnitItemBuilder.specs;
 import static com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder.getAllModuleDataBuilder;
 import static com.anningui.modifyjs.mod_adder.mek.util.KubeJSMekUntiItemUtils.getModuleById;
@@ -65,7 +64,7 @@ public class ModifyJSClient {
     @SubscribeEvent
     public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
         for (String skinName : event.getSkins()) {
-            addCustomLayers(EntityType.PLAYER, (PlayerRenderer) event.getSkin(skinName), event.getContext().getModelManager());
+            addCustomLayers((PlayerRenderer) event.getSkin(skinName), event.getContext().getModelManager());
         }
         //Add our own custom armor layer to everything that has an armor layer
         //Note: This includes any modded mobs that have vanilla's BipedArmorLayer added to them
@@ -74,12 +73,12 @@ public class ModifyJSClient {
             if (renderer instanceof LivingEntityRenderer) {
                 EntityType<?> entityType = entry.getKey();
                 //noinspection unchecked,rawtypes
-                addCustomLayers(entityType, event.getRenderer((EntityType) entityType), event.getContext().getModelManager());
+                addCustomLayers(event.getRenderer((EntityType) entityType), event.getContext().getModelManager());
             }
         }
     }
 
-    private static <T extends LivingEntity, M extends HumanoidModel<T>> void addCustomLayers(EntityType<?> type, @Nullable LivingEntityRenderer<T, M> renderer, ModelManager modelManager) {
+    private static <T extends LivingEntity, M extends HumanoidModel<T>> void addCustomLayers(@Nullable LivingEntityRenderer<T, M> renderer, ModelManager modelManager) {
         if (renderer == null || !MixinStron.isInitialized()
         ) {
             return;
