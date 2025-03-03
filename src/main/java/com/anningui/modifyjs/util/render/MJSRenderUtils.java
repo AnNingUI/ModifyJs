@@ -155,6 +155,16 @@ public class MJSRenderUtils {
                 .endVertex();
     }
 
+    public static BakedModel getModel(ResourceLocation idPath) {
+        Minecraft mc = Minecraft.getInstance();
+        return mc.getModelManager().getModel(idPath);
+    }
+
+    public static BakedModel getModel(ResourceLocation idPath, String variant) {
+        Minecraft mc = Minecraft.getInstance();
+        return mc.getModelManager().getModel(new ModelResourceLocation(idPath, variant));
+    }
+
     public static void renderEntityLineIn3D(
             Entity entity,
             float rayLength,
