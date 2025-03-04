@@ -9,10 +9,13 @@ import com.anningui.modifyjs.kubejs.event.ModelRegisterAdditional;
 import com.anningui.modifyjs.util.js_long.SwitchMap;
 import com.anningui.modifyjs.util.render.MJSRenderUtils;
 import com.anningui.modifyjs.util.js_long.TryCatchPipe;
+import dev.architectury.platform.Platform;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 
 import static dev.latvian.mods.kubejs.registry.RegistryInfo.ITEM;
 
@@ -57,6 +60,12 @@ public class ModifyJSKubeJSPlugin extends KubeJSPlugin {
         event.add("SwitchMap", SwitchMap.class);
         event.add("MJSRenderUtils", MJSRenderUtils.class);
         event.add("ModelResourceLocation", ModelResourceLocation.class);
+        if (event.getType().isClient() && Platform.isModLoaded("eventjs")) {
+            event.add("RenderPlayerEvent$Pre", RenderPlayerEvent.Pre.class);
+            event.add("RenderPlayerEvent$Post", RenderPlayerEvent.Post.class);
+            event.add("RenderLivingEvent$Pre", RenderLivingEvent.Pre.class);
+            event.add("RenderLivingEvent$Post", RenderLivingEvent.Post.class);
+        }
     }
 }
 

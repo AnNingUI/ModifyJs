@@ -99,4 +99,20 @@ public class TryCatchPipe {
             return null;
         }, false, true);
     }
+
+    public static void tryCatchBBV(boolean b, Runnable successAction, Runnable superAction) {
+        if (b) {
+            TryCatchPipe.pipeWithVoid(successAction, (e) -> superAction.run()).run();
+        } else {
+            superAction.run();
+        }
+    }
+
+    public static <T> T tryCatchBBR(boolean b, Function<Void, T> successAction, Function<Exception, T> superAction) {
+        if (b) {
+            return (T) TryCatchPipe.pipeWithReturnValue(successAction, superAction).run();
+        } else {
+            return superAction.apply(null);
+        }
+    }
 }

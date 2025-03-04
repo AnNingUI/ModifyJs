@@ -1,5 +1,6 @@
 package com.anningui.modifyjs.kubejs.event;
 
+import dev.latvian.mods.kubejs.bindings.event.ClientEvents;
 import dev.latvian.mods.kubejs.event.EventGroup;
 import dev.latvian.mods.kubejs.event.EventHandler;
 
