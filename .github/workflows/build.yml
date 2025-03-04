@@ -49,3 +49,9 @@ jobs:
           RELEASE_TYPE: ${{ inputs.release_type }}
         with:
           arguments: publishUnified --stacktrace --no-daemon
+
+      - name: Builder In GitHub Actions
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-jar
+          path: build/libs/*.jar
