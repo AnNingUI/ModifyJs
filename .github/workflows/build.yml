@@ -53,5 +53,5 @@ jobs:
       - name: Builder In GitHub Actions
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-build.${{ github.run_id }}
+          name: ${{ github.event.repository.name }}-build.${{ github.run_number }}
           path: build/libs/*.jar
