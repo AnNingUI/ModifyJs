@@ -12,10 +12,9 @@
 - [x] 添加 [MEK Module Item](https://wiki.aidancbrady.com/wiki/Modules) 的物品注册类型
 - [ ] ...(还在完善中)
 
-### Attention
+### 注意事项
 <span style="color: red;">
 这个模组重写了<code style="color: red; font-size: 16px">BlockItemBuilder</code>的<code style="color: red; font-size: 16px">createObject</code>方法, 这可能会在在方块注册期间可能引起问题</span>
 
-## 示例:
-## Example:
+## 示例
 看[这里](./example/)。

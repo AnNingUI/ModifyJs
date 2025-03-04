@@ -17,5 +17,5 @@ This is a simple mod that initially started as an addition for some features not
 <span style="color: red;">
 This mod overrides the <code style="color: red; font-size: 16px">createObject</code> method of <code style="color: red; font-size: 16px">BlockItemBuilder</code>, which may cause issues during block registration.</span>
 
-## Example:
+## Example
 Look [This](./example/)
