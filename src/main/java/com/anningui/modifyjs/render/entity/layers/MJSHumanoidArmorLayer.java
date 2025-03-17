@@ -62,14 +62,4 @@ public class MJSHumanoidArmorLayer <T extends LivingEntity, M extends HumanoidMo
         int index = ids.indexOf(armorId);
         return index != -1;
     }
-
-    @Override
-    public @NotNull ResourceLocation getArmorResource(@NotNull Entity entity, ItemStack stack, @NotNull EquipmentSlot slot, @Nullable String type) {
-        var armorItem = stack.getItem();
-        if (armorItem instanceof RenderArmorItem && !instances.get(stack.kjs$getIdLocation()).canShowModel ) {
-            return new ResourceLocation(ModifyJS.ID, "textures/models/armor/blank_armor.png");
-        } else {
-            return super.getArmorResource(entity, stack, slot, type);
-        }
-    }
 }

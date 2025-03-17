@@ -6,6 +6,7 @@ import com.anningui.modifyjs.render.item.KJSClientItemExtensions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import dev.latvian.mods.kubejs.item.ItemBuilder;
 import dev.latvian.mods.kubejs.item.MutableArmorTier;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
 import dev.latvian.mods.rhino.util.HideFromJS;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.*;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +29,11 @@ import static java.util.Objects.isNull;
 
 public class RenderArmorItem extends ArmorItem {
     private final Multimap<ResourceLocation, AttributeModifier> attributes;
-    public RenderArmorItem(ArmorMaterial material, Type type, Properties properties, Multimap<ResourceLocation, AttributeModifier> attributes) {
+    private final Builder builder;
+    public RenderArmorItem(ArmorMaterial material, Type type, Properties properties, Multimap<ResourceLocation, AttributeModifier> attributes, Builder builder) {
         super(material, type, properties);
         this.attributes = attributes;
+        this.builder = builder;
     }
     private boolean modified = false;
     {defaultModifiers = ArrayListMultimap.create(defaultModifiers);}
@@ -43,13 +47,18 @@ public class RenderArmorItem extends ArmorItem {
         return super.getDefaultAttributeModifiers(equipmentSlot);
     }
 
+    @Override
+    public @Nullable Builder kjs$getItemBuilder() {
+        return builder;
+    }
+
     public static class Builder extends RenderItemBuilder {
         @HideFromJS
         public static Map<ResourceLocation, Builder> instances = new HashMap<>();
         public final ArmorItem.Type armorType;
         public MutableArmorTier armorTier;
-
-        public boolean canShowModel = true;
+        @HideFromJS
+        public boolean noShowArmorModel = false;
 
         public static Map<Builder, Consumer<ArmorLayerContext>> allArmorLayers = new HashMap<>();
 
@@ -76,15 +85,15 @@ public class RenderArmorItem extends ArmorItem {
             return this;
         }
 
-        public Builder noJavaModel() {
-            this.canShowModel = false;
+        public Builder noDefaultRender() {
+            this.noShowArmorModel = true;
             return this;
         }
 
         @Override
         public Item createObject() {
             if (mjs$isCustomRenderer && !isNull(mjs$renderByItemCallback)) {
-                return new RenderArmorItem(armorTier, armorType, createItemProperties(), attributes) {
+                return new RenderArmorItem(armorTier, armorType, createItemProperties(), attributes, this) {
 
                     @Override
                     public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
@@ -98,7 +107,7 @@ public class RenderArmorItem extends ArmorItem {
                     }
                 };
             } else {
-                return new RenderArmorItem(armorTier, armorType, createItemProperties(), attributes);
+                return new RenderArmorItem(armorTier, armorType, createItemProperties(), attributes, this);
             }
         }
     }
