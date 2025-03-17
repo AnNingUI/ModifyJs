@@ -37,7 +37,7 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
     }
 
     @Final
-    @Inject(method = "renderModel*", at = @At("HEAD"))
+    @Inject(method = "renderModel*", at = @At("HEAD"), remap = false)
     private void getItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, ArmorItem armorItem, Model model, boolean bl, float f, float g, float h, ResourceLocation resourceLocation, CallbackInfo ci) {
         this.mjs$armorItem = armorItem;
     }
