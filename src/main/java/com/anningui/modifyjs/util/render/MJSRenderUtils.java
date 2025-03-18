@@ -2,9 +2,11 @@ package com.anningui.modifyjs.util.render;
 
 import com.anningui.modifyjs.ModifyJS;
 import com.anningui.modifyjs.util.RayTraceResultMJS;
+import com.anningui.modifyjs.util.js_long.TryCatchPipe;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.latvian.mods.kubejs.typings.Info;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -22,6 +24,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +37,8 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -166,12 +171,62 @@ public class MJSRenderUtils {
                 .endVertex();
     }
 
+    @Deprecated
     public static BakedModel getModel(ResourceLocation idPath) {
         return mc.getModelManager().getModel(idPath);
     }
 
+    @Deprecated
     public static BakedModel getModel(ResourceLocation idPath, String variant) {
         return mc.getModelManager().getModel(new ModelResourceLocation(idPath, variant));
+    }
+
+    public static BakedModel getJsonModel(ResourceLocation idPath) {
+        return mc.getModelManager().getModel(new ModelResourceLocation(idPath, "standalone"));
+    }
+
+    public static BakedModel getJsonModel(ResourceLocation idPath, String variant) {
+        return mc.getModelManager().getModel(new ModelResourceLocation(idPath, variant));
+    }
+
+    public static <T extends LivingEntity> Optional<EntityModel<T>> getEntityModel(T entity) {
+        if (entity != null) {
+            var renderer = mc.getEntityRenderDispatcher().getRenderer(entity);
+            try {
+                return Optional.of(((LivingEntityRenderer<T, EntityModel<T>>) renderer).getModel());
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static <T extends LivingEntity> Optional<HumanoidModel<T>> getHumanoidModel(T entity) {
+        if (entity != null) {
+            var renderer = mc.getEntityRenderDispatcher().getRenderer(entity);
+            try {
+                return Optional.of(((LivingEntityRenderer<T, HumanoidModel<T>>) renderer).getModel());
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static <T extends LivingEntity> boolean isHumanoidModel(T entity) {
+        if (entity != null) {
+            var renderer = mc.getEntityRenderDispatcher().getRenderer(entity);
+            return renderer instanceof LivingEntityRenderer && ((LivingEntityRenderer) renderer).getModel() instanceof HumanoidModel;
+        }
+        return false;
+    }
+
+    public static <T extends LivingEntity> void runOnHumanoidModel(T entity, Consumer<HumanoidModel<T>> consumer) {
+        TryCatchPipe.tryCatchBBV(
+                isHumanoidModel(entity),
+                () -> consumer.accept(getHumanoidModel(entity).orElse(null)),
+                () -> {}
+        );
     }
 
     public static HumanoidModel<AbstractClientPlayer> getPlayerModel(AbstractClientPlayer player) {

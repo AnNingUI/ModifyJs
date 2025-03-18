@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class MJSBakeModel implements BakedModel {
     }
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState pState, @Nullable Direction pDirection, RandomSource pRandom) {
+    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState pState, @Nullable Direction pDirection, RandomSource pRandom) {
         return this.existingModel.getQuads(pState, pDirection, pRandom);
     }
 
@@ -53,17 +54,17 @@ public class MJSBakeModel implements BakedModel {
 
 
     @Override
-    public TextureAtlasSprite getParticleIcon() {
+    public @NotNull TextureAtlasSprite getParticleIcon() {
         return this.existingModel.getParticleIcon();
     }
 
     @Override
-    public ItemOverrides getOverrides() {
+    public @NotNull ItemOverrides getOverrides() {
         return this.existingModel.getOverrides();
     }
 
     @Override
-    public BakedModel applyTransform(ItemDisplayContext transformType, PoseStack poseStack, boolean applyLeftHandTransform) {
+    public @NotNull BakedModel applyTransform(@NotNull ItemDisplayContext transformType, @NotNull PoseStack poseStack, boolean applyLeftHandTransform) {
         return this;
     }
 }
