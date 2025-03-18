@@ -64,3 +64,6 @@ global.testRender = (ctx) => {
         poseStack.popPose();
     }
 }
+
+
+// More Armor Layers Example: https://github.com/AnNingUI/KJS-TEST/blob/main/kubejs/startup_scripts/src/registry/item/aromr_render_test.js
