@@ -1,6 +1,6 @@
 package com.anningui.modifyjs;
 
-import com.anningui.modifyjs.callback.MixinStron;
+import com.anningui.modifyjs.callback.MixinStore;
 import com.anningui.modifyjs.kubejs.event.ModelRegisterAdditional;
 import com.anningui.modifyjs.mod_adder.mek.custom.module.KubeJSModuleDataBuilder;
 import com.anningui.modifyjs.mod_adder.mek.util.UnitItemSlots;
@@ -76,12 +76,12 @@ public class ModifyJSClient {
     }
 
     private static <T extends LivingEntity, M extends HumanoidModel<T>> void addCustomLayers(@Nullable LivingEntityRenderer<T, M> renderer, ModelManager modelManager) {
-        if (renderer == null || !MixinStron.isInitialized()
+        if (renderer == null || !MixinStore.isInitialized()
         ) {
             return;
         }
         HumanoidArmorLayer<T, M, ?> bipedArmorLayer = null;
-        for (RenderLayer<T, M> layerRenderer : (List<RenderLayer<T, M>>) (Object) MixinStron.layers) {
+        for (RenderLayer<T, M> layerRenderer : (List<RenderLayer<T, M>>) (Object) MixinStore.layers) {
             //Validate against the layer render being null, as it seems like some mods do stupid things and add in null layers
             if (layerRenderer != null) {
                 //Only allow an exact class match, so we don't add to modded entities that only have a modded extended armor or elytra layer
@@ -98,8 +98,8 @@ public class ModifyJSClient {
             renderer.addLayer(
                     new MJSHumanoidArmorLayer<>(
                             renderer,
-                            (HumanoidModel<T>) MixinStron.innerModel,
-                            (HumanoidModel<T>) MixinStron.outerModel,
+                            (HumanoidModel<T>) MixinStore.innerModel,
+                            (HumanoidModel<T>) MixinStore.outerModel,
                             modelManager
                     )
             );

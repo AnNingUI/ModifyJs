@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MixinStron {
+public class MixinStore {
     public static List<RenderLayer<?, ?>> layers = new ArrayList<>();
     public static HumanoidModel<LivingEntity> innerModel = null;
     public static HumanoidModel<LivingEntity> outerModel = null;

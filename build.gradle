@@ -77,6 +77,8 @@ loom {
     accessWidenerPath = file("src/main/resources/${config.mod_id}.accesswidener")
 }
 
+
+
 repositories {
     maven {
         name = "Architectury"
